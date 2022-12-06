@@ -1,0 +1,6 @@
+models:
+  ArticleTag:
+    article_id: id foreign
+    tag_id: id foreign
+    relationships:
+      belongsTo: Tag ,Article

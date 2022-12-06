@@ -84,9 +84,29 @@ class ArticleCrudController extends CrudController
             'upload'    => true,
         ]);
         CRUD::field('status')->type('enum')->size(6);
+
+        CRUD::addField([  // CustomHTML
+            'name'  => 'separator',
+            'type'  => 'custom_html',
+            'value' => '<div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+          </div>'
+        
+    ]);
         CRUD::field('date')->size(6);
-        CRUD::field('featured')->type('checkbox')->size(6);
-        CRUD::addField([   // SelectMultiple = n-n relationship (with pivot table)
+        CRUD::field('featured')->type('switch')->size(6);
+        CRUD::addField([   // Checklist
+            'label'     => 'Tags',
+            'type'      => 'checklist',
+            'name'      => 'tags',
+            'entity'    => 'tags',
+            'attribute' => 'name',
+            'model'     => "App\Models\Tag",
+            'pivot'     => true,
+            // 'number_of_columns' => 3,
+        ]);
+      /*  CRUD::addField([   // SelectMultiple = n-n relationship (with pivot table)
             'label'     => "Tags",
             'type'      => 'select_multiple',
             'name'      => 'tags', // the method that defines the relationship in your Model
@@ -100,9 +120,9 @@ class ArticleCrudController extends CrudController
             // also optional
             'options'   => (function ($query) {
                 return $query->orderBy('name', 'ASC')->get();
-            }),
+            })
         ]);
-
+,*/
       /*  CRUD::addField([ 'name'        => 'template',
         'label'       => "Template",
         'type'        => 'select2_from_array',

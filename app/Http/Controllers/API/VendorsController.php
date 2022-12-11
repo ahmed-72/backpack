@@ -15,7 +15,7 @@ class VendorsController extends Controller
      */
     public function index()
     {
-        $vendors=Vendor::with('classifications','items','items.attributes')->get();
+        $vendors=Vendor::with('categories','products','products.options')->get();
       //  dd($vendors);
         return response($vendors);
     }

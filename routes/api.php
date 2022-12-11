@@ -21,4 +21,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('/vendor',VendorsController::class);
-Route::resource('/item',ItemsController::class);

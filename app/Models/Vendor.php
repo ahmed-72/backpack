@@ -29,9 +29,9 @@ class Vendor extends Model
     /**
      * @return HasMany
     */
-    public function items():HasMany
+    public function products():HasMany
     {
-       return $this->hasMany(Item::class);
+       return $this->hasMany(Product::class);
     }
 
 }

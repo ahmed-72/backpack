@@ -73,12 +73,19 @@ class ProductOptionCrudController extends CrudController
         $this->crud->column('order');
         $this->crud->column('created_at');
         $this->crud->column('updated_at');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - $this->crud->column('price')->type('number');
-         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']); 
-         */
+        $this->crud->addFilter(
+            [
+                'type'  => 'select2',
+                'name'  => 'product_id',
+                'label' => 'Product Fitler'
+            ],
+            function () {
+                return \App\Models\Product::all()->keyBy('id')->pluck( 'name_en','id')->toArray();}
+                ,
+            function ($value) {
+                $this->crud->addClause('where', 'product_id', $value);
+            }
+        );
     }
 
     /**

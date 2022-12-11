@@ -118,11 +118,17 @@ return [
     // hide it with d-none
     // change background color with bg-dark, bg-primary, bg-secondary, bg-danger, bg-warning, bg-success, bg-info, bg-blue, bg-light-blue, bg-indigo, bg-purple, bg-pink, bg-red, bg-orange, bg-yellow, bg-green, bg-teal, bg-cyan, bg-white
 
-    // Developer or company name. Shown in footer.
-    'developer_name' => 'Cristian Tabacitu',
+    // Developer  name. Shown in footer.
+    'developer_name' => 'Ahmed Assar',
 
     // Developer website. Link in footer. Type false if you want to hide it.
-    'developer_link' => 'http://tabacitu.ro',
+    'developer_link' => 'http://github.com/ahmed-72',
+
+    // Company name. Shown in footer.
+    'company_name' => 'Atyaf co',
+
+    // Developer website. Link in footer. Type false if you want to hide it.
+    'company_link' => 'http://atyaf.co',
 
     // Show powered by Laravel Backpack in the footer? true/false
     'show_powered_by' => true,

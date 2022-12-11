@@ -53,7 +53,6 @@ class CategoryCrudController extends CrudController
         $this->crud->column('featured')->type('check');
         $this->crud->column('created_at');
         $this->crud->column('updated_at');
-        // add a "simple" filter called Draft
         $this->crud->addFilter(
             [
                 'type'  => 'dropdown',
@@ -61,16 +60,11 @@ class CategoryCrudController extends CrudController
                 'label' => 'Type Fitler'
             ],
             [
-                'product'=> 'product',
-                'vendor' =>'vendor',
-              ],
-            function ($value) { // if the filter is active (the GET parameter "draft" exits)
+                'product' => 'product',
+                'vendor' => 'vendor',
+            ],
+            function ($value) {
                 $this->crud->addClause('where', 'type', $value);
-                // we've added a clause to the CRUD so that only elements with draft=1 are shown in the table
-                // an alternative syntax to this would have been
-                // $this->crud->query = $this->crud->query->where('draft', '1'); 
-                // another alternative syntax, in case you had a scopeDraft() on your model:
-                // $this->crud->addClause('draft'); 
             }
         );
     }

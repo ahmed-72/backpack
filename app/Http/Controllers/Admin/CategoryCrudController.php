@@ -26,9 +26,9 @@ class CategoryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Category::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/category');
-        CRUD::setEntityNameStrings('category', 'categories');
+        $this->crud->setModel(\App\Models\Category::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/category');
+        $this->crud->setEntityNameStrings('category', 'categories');
     }
 
     /**
@@ -39,18 +39,40 @@ class CategoryCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('parent_id');
-        CRUD::column('lft');
-        CRUD::column('rgt');
-        CRUD::column('depth');
-        CRUD::column('name');
-        CRUD::column('slug');
-
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
-         */
+        $this->crud->column('name_en');
+        $this->crud->column('name_ar');
+        $this->crud->column('type');
+        $this->crud->addColumn([
+            'label' => "Image",
+            'name' =>  "image",
+            'type' => 'image',
+            'height' => '50px',
+            'width'  => '50px',
+        ]);
+        $this->crud->column('active')->type('check');
+        $this->crud->column('featured')->type('check');
+        $this->crud->column('created_at');
+        $this->crud->column('updated_at');
+        // add a "simple" filter called Draft
+        $this->crud->addFilter(
+            [
+                'type'  => 'dropdown',
+                'name'  => 'typeFitler',
+                'label' => 'Type Fitler'
+            ],
+            [
+                'product'=> 'product',
+                'vendor' =>'vendor',
+              ],
+            function ($value) { // if the filter is active (the GET parameter "draft" exits)
+                $this->crud->addClause('where', 'type', $value);
+                // we've added a clause to the CRUD so that only elements with draft=1 are shown in the table
+                // an alternative syntax to this would have been
+                // $this->crud->query = $this->crud->query->where('draft', '1'); 
+                // another alternative syntax, in case you had a scopeDraft() on your model:
+                // $this->crud->addClause('draft'); 
+            }
+        );
     }
 
     /**
@@ -61,19 +83,54 @@ class CategoryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(CategoryRequest::class);
+        $this->crud->setValidation(CategoryRequest::class);
 
-        CRUD::field('parent_id');
-        CRUD::field('lft');
-        CRUD::field('rgt');
-        CRUD::field('depth');
-        CRUD::field('name');
-        CRUD::field('slug');
+        $this->crud->field('name_en');
+        $this->crud->field('name_ar');
+        $this->crud->addField([
+            'name'  => 'type',
+            'label' => 'type',
+            'type'  => 'enum',
+        ]);
+        $this->crud->addField([
+            'name'  => 'separator',
+            'type'  => 'custom_html',
+            'value' => '<div class="">
+            <label for="">activation</label>
+          </div>'
+        ]);
+        $this->crud->addField([
+            'label'        => 'is Active?',
+            'name'         => 'active',
+            'type'         => 'switch',
+            'wrapper' => ['class' => 'form-group col-md-6'],
+            'color'    => 'success',
+            'onLabel' => '✓',
+            'offLabel' => '✕',
+        ]);
+        $this->crud->addField([
+            'label'        => 'is Featured?',
+            'name'         => 'featured',
+            'type'         => 'switch',
+            'wrapper' => ['class' => 'form-group col-md-6'],
+            'color'    => 'success',
+            'onLabel' => '✓',
+            'offLabel' => '✕',
+        ]);
+        $this->crud->addField([
+            'label'        => 'Image',
+            'name'         => 'image',
+            'filename'     => 'image_filename',
+            'type'         => 'base64_image',
+            'aspect_ratio' => 0,
+            'crop'         => true,
+            'src'          => NULL,
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number'])); 
          */
     }
 

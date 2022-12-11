@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
-            $table->softDeletes();
+            $table->longText('description')->nullable();
+            $table->float('price');
+            $table->longText('avatar');
+            $table->foreignId('vendor_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +32,6 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('items');
     }
-}
+};

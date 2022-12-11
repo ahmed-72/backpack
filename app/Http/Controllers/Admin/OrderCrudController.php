@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ArticleTagRequest;
+use App\Http\Requests\OrderRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class ArticleTagCrudController
+ * Class OrderCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ArticleTagCrudController extends CrudController
+class OrderCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class ArticleTagCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\ArticleTag::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/article-tag');
-        CRUD::setEntityNameStrings('article tag', 'article tags');
+        CRUD::setModel(\App\Models\Order::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/order');
+        CRUD::setEntityNameStrings('order', 'orders');
     }
 
     /**
@@ -39,8 +39,8 @@ class ArticleTagCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('article_id');
-        CRUD::column('tag_id');
+        CRUD::column('created_at');
+        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -57,27 +57,9 @@ class ArticleTagCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ArticleTagRequest::class);
+        CRUD::setValidation(OrderRequest::class);
 
-        //$this->crud->field('article_id')->type('select_from_array');
-        $this->crud->addField(
         
-        [  // Select
-            'label'     => "Category",
-            'type'      => 'select',
-            'name'      => 'article_id', // the db column for the foreign key
-         
-            // optional
-            // 'entity' should point to the method that defines the relationship in your Model
-            // defining entity will make Backpack guess 'model' and 'attribute'
-            'entity'    => 'article',
-         
-            // optional - manually specify the related model and attribute
-            'model'     => "App\Models\Article", // related model
-            'attribute' => 'title', // foreign key attribute that is shown to user
-         
-         ],);
-        CRUD::field('tag_id');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

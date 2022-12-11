@@ -4,7 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
@@ -12,36 +16,24 @@ class Category extends Model
     use HasFactory, SoftDeletes;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * declare not filable fields
      */
-    protected $fillable = [
-        'parent_id',
-        'lft',
-        'rgt',
-        'depth',
-        'name',
-        'slug',
-    ];
+    protected $guarded = [];
+
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * @return BelongsTo
      */
-    protected $casts = [
-        'id' => 'integer',
-        'parent_id' => 'integer',
-    ];
-
-    public function articles()
+    public function vendors(): BelongsToMany
     {
-        return $this->hasMany(Article::class);
+        return $this->belongsToMany(Vendor::class , 'vendor_categories');
     }
 
-    public function parent()
+    /**
+     * @return BelongsTo
+     */
+    public function products(): BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Product::class , 'product_categories');
     }
 }

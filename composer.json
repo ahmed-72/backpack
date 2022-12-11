@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "backpack/crud": "^5.4",
+        "backpack/pro": "^1.4",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "laravel/framework": "^9.19",
@@ -14,6 +15,7 @@
         "laravel/tinker": "^2.7"
     },
     "require-dev": {
+        "backpack/devtools": "^1.2",
         "backpack/generators": "^3.3",
         "fakerphp/faker": "^1.9.1",
         "laravel-shift/blueprint": "^2.4",
@@ -65,5 +67,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.backpackforlaravel.com/"
+        }
+    ]
 }

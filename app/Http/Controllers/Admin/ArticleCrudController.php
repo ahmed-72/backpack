@@ -26,10 +26,86 @@ class ArticleCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Article::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/article');
-        CRUD::setEntityNameStrings('article', 'articles');
+        $this->crud->setModel(\App\Models\Article::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/article');
+        $this->crud->setEntityNameStrings('article', 'articles');
     }
+
+      // show whatever you want
+      protected function setupShowOperation()
+      { 
+          // MAYBE: do stuff before the autosetup
+  
+          // automatically add the columns
+          $this->autoSetupShowOperation();
+  
+          // MAYBE: do stuff after the autosetup
+          $this->crud->modifyColumn('image',[
+            'label' => "Image",
+            'name' =>  "image",
+            'type' => 'image',
+            'prefix'=>'storage/',
+            'height' => '100px',
+            'width'  => '100px',
+            ]);
+           
+     $this->crud->modifyColumn('created_at',['type'=>'date ']);
+
+          // for example, let's add some new columns
+          $this->crud->addColumn([
+              'name' => 'tags',
+              'label' => 'relationship_count',
+              'type' => 'relationship_count',
+          ]);
+          $this->crud->addColumn([
+            // 1-n relationship
+            'label'     => 'relationship', // Table column heading
+            'type'      => 'select',
+           // 'name'      => 'article_id', // the column that contains the ID of that connected entity;
+            'entity'    => 'tags.stags', // the method that defines the relationship in your Model
+            'attribute' => 'details', // foreign key attribute that is shown to user
+ 
+            // 'entity'    => 'tags.articles',
+            //'attribute' => 'slug', // foreign key attribute that is shown to user
+
+
+          //  'model'     => "App\Models\Tag", // foreign key model
+           /* 'columns' => [
+                'label'     => 'relationship', // Table column heading
+                'type'      => 'select',
+                'name'      => 'tag_id', // the column that contains the ID of that connected entity;
+                'entity'    => 'stags', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => "App\Models\Stag", // foreign key model
+            ],*/
+         ],);
+         $this->crud->addColumn([
+            'label'     => 'relationship',
+            'type'      => 'select',
+            'entity'    => 'tags.stags.full_name',
+            'attribute' => 'full_name',
+         ],);
+        
+/*
+$this->crud->addColumn([
+              'name' => 'tags.articles',
+              'label' => 'relatiship_count',
+              'type' => 'relationship_count',
+          ]);*/
+
+         //articles
+         $this->crud->addColumn([
+            'name'  => 'separator',
+            'type'  => 'custom_html',
+            'value' => '<div class="col-6"><a class="btn btn-block btn-primary" href='.route("test").'>show
+          </a></div>'
+         ],);
+  
+          // or maybe remove a column
+          //$this->crud->removeColumn('fake_table');
+      }
+
+
 
     /**
      * Define what happens when the List operation is loaded.
@@ -39,12 +115,21 @@ class ArticleCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('category_id');
-        CRUD::column('title');
-        CRUD::column('tags')->type('relationship_count');
-        CRUD::column('slug');
-        CRUD::column('content');
-        CRUD::addColumn([
+        $this->crud->column('category_id');
+        $this->crud->column('title');
+        $this->crud->column('tags')->type('relationship_count');
+       /* $this->crud->addColumn([
+            // 1-n relationship
+            'label'     => 'tags', // Table column heading
+            'type'      => 'select',
+            'name'      => 'article_id', // the column that contains the ID of that connected entity;
+            'entity'    => 'tags', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model'     => "App\Models\Tag", // foreign key model
+         ],);
+        $this->crud->column('slug');*/
+        $this->crud->column('content');
+        $this->crud->addColumn([
         'label' => "Image",
         'name' =>  "image",
         'type' => 'image',
@@ -52,14 +137,15 @@ class ArticleCrudController extends CrudController
         'height' => '50px',
         'width'  => '50px',
         ]);
-        CRUD::column('status');
-        CRUD::column('date');
-        CRUD::column('featured');
+        $this->crud->modifyColumn('featured',['type'=>'check']);
+
+        $this->crud->column('date');
+        $this->crud->column('featured')->type('check');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - $this->crud->column('price')->type('number');
+         * - $this->crud->addColumn(['name' => 'price', 'type' => 'number']); 
          */
     }
 
@@ -71,21 +157,24 @@ class ArticleCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(ArticleRequest::class);
+        $this->crud->setValidation(ArticleRequest::class);
 
-        CRUD::field('category_id');
-        CRUD::field('title')->size(6);
-        CRUD::field('slug')->size(6);
-        CRUD::field('content')->type('summernote');
-        CRUD::addField([   
-            'label'     => "image",
-            'name'      =>'image',
-            'type'      => 'upload',
-            'upload'    => true,
+        $this->crud->field('category_id');
+        $this->crud->field('title')->size(6);
+        $this->crud->field('slug')->size(6);
+        $this->crud->field('content')->type('ckeditor');
+        $this->crud->addField([   
+            'label'        => "Profile Image",
+            'name'         => "image",
+            'filename'     => "image_filename", // set to null if not needed
+            'type'         => 'base64_image',
+            'aspect_ratio' => 1, // set to 0 to allow any aspect ratio
+            'crop'         => true, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
         ]);
-        CRUD::field('status')->type('enum')->size(6);
-
-        CRUD::addField([  // CustomHTML
+        $this->crud->field('status')->type('enum')->size(6);
+        
+       /* $this->crud->addField([  // CustomHTML
             'name'  => 'separator',
             'type'  => 'custom_html',
             'value' => '<div class="form-floating mb-3">
@@ -93,10 +182,10 @@ class ArticleCrudController extends CrudController
             <label for="floatingInput">Email address</label>
           </div>'
         
-    ]);
-        CRUD::field('date')->size(6);
-        CRUD::field('featured')->type('switch')->size(6);
-        CRUD::addField([   // Checklist
+    ]);*/
+        $this->crud->field('date')->size(6);
+        $this->crud->field('featured')->type('switch')->size(6);
+        $this->crud->addField([   // Checklist
             'label'     => 'Tags',
             'type'      => 'checklist',
             'name'      => 'tags',
@@ -106,7 +195,7 @@ class ArticleCrudController extends CrudController
             'pivot'     => true,
             // 'number_of_columns' => 3,
         ]);
-      /*  CRUD::addField([   // SelectMultiple = n-n relationship (with pivot table)
+      /*  $this->crud->addField([   // SelectMultiple = n-n relationship (with pivot table)
             'label'     => "Tags",
             'type'      => 'select_multiple',
             'name'      => 'tags', // the method that defines the relationship in your Model
@@ -123,7 +212,7 @@ class ArticleCrudController extends CrudController
             })
         ]);
 ,*/
-      /*  CRUD::addField([ 'name'        => 'template',
+      /*  $this->crud->addField([ 'name'        => 'template',
         'label'       => "Template",
         'type'        => 'select2_from_array',
         'options'     => ['one' => 'One', 'two' => 'Two'],
@@ -132,8 +221,8 @@ class ArticleCrudController extends CrudController
 */
         /**
          * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - $this->crud->field('price')->type('number');
+         * - $this->crud->addField(['name' => 'price', 'type' => 'number'])); 
          */
     }
 

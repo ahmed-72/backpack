@@ -34,4 +34,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Article::class, 'article_tags');
     }
+
+    public function stags()
+    {
+        return  $this->hasMany(Stag::class);
+    }
 }

@@ -10,3 +10,11 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('product') }}"><i class="nav-icon la la-hamburger"></i> Products</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('product-option') }}"><i class="nav-icon la la-stream"></i> Product options</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('order') }}"><i class="nav-icon la la-clipboard"></i> Orders</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('discount') }}"><i class="nav-icon la la-question"></i> Discounts</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('invitation-card') }}"><i class="nav-icon la la-question"></i> Invitation cards</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('card-theme') }}"><i class="nav-icon la la-question"></i> Card themes</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('flexible-invitation') }}"><i class="nav-icon la la-question"></i> Flexible invitations</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('fixed-invitation') }}"><i class="nav-icon la la-question"></i> Fixed invitations</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('order') }}"><i class="nav-icon la la-question"></i> Orders</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('order-product') }}"><i class="nav-icon la la-question"></i> Order products</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('order-product-option') }}"><i class="nav-icon la la-question"></i> Order product options</a></li>

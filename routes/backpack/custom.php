@@ -22,4 +22,11 @@ Route::group([
     Route::crud('vendor', 'VendorCrudController');
     Route::crud('product', 'ProductCrudController');
     Route::crud('product-option', 'ProductOptionCrudController');
+    Route::crud('discount', 'DiscountCrudController');
+    Route::crud('invitation-card', 'InvitationCardCrudController');
+    Route::crud('card-theme', 'CardThemeCrudController');
+    Route::crud('flexible-invitation', 'FlexibleInvitationCrudController');
+    Route::crud('fixed-invitation', 'FixedInvitationCrudController');
+    Route::crud('order-product', 'OrderProductCrudController');
+    Route::crud('order-product-option', 'OrderProductOptionCrudController');
 }); // this should be the absolute last line of this file

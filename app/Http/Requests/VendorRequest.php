@@ -13,7 +13,7 @@ class VendorRequest extends FormRequest
      */
     public function authorize()
     {
-        dd($this->all());
+     //   dd($this->all());
         // only allow updates if the user is logged in
         return backpack_auth()->check();
     }

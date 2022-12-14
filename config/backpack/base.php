@@ -31,7 +31,7 @@ return [
     // The string below will be passed through the url() helper.
     // - default: '' (project root)
     // - alternative: 'admin' (the admin's dashboard)
-    'home_link' => '',
+    'home_link' => '/admin/dashboard',
 
     // Content of the HTML meta robots tag to prevent indexing and link following
     'meta_robots_content' => 'noindex, nofollow',
@@ -85,7 +85,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>Test</b>Backpack',
+    'project_logo'   => '<b class="pl-2">Maazim</b>',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,
@@ -119,10 +119,10 @@ return [
     // change background color with bg-dark, bg-primary, bg-secondary, bg-danger, bg-warning, bg-success, bg-info, bg-blue, bg-light-blue, bg-indigo, bg-purple, bg-pink, bg-red, bg-orange, bg-yellow, bg-green, bg-teal, bg-cyan, bg-white
 
     // Developer  name. Shown in footer.
-    'developer_name' => 'Ahmed Assar',
+    'developer_name' => 'Atyaf co',
 
     // Developer website. Link in footer. Type false if you want to hide it.
-    'developer_link' => 'http://github.com/ahmed-72',
+    'developer_link' => 'http://atyaf.co',
 
     // Company name. Shown in footer.
     'company_name' => 'Atyaf co',

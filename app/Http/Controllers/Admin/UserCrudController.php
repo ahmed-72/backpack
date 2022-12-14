@@ -65,7 +65,7 @@ class UserCrudController extends CrudController
         $this->crud->field('name');
         $this->crud->field('email');
         $this->crud->field('phone');
-       // Hash::make(field('password'));
+        $this->crud->field('password');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

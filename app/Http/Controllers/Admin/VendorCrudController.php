@@ -39,7 +39,8 @@ class VendorCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->column('name');
+        $this->crud->column('name_en');
+        $this->crud->column('name_ar');
         $this->crud->column('description');
         $this->crud->column('location');
         $this->crud->column('email');
@@ -68,7 +69,8 @@ class VendorCrudController extends CrudController
     {
         $this->crud->setValidation(VendorRequest::class);
 
-        $this->crud->field('name');
+        $this->crud->field('name_en');
+        $this->crud->field('name_ar');
         $this->crud->field('description');
         $this->crud->field('location');
         $this->crud->field('email');
@@ -80,7 +82,7 @@ class VendorCrudController extends CrudController
             'type' => "relationship",
             // OPTIONALS:
              'label' => "Categories",
-             'attribute' => "name",
+             'attribute' => "name_en",
              'placeholder' => "Select a category",
          ],
      /*   // for 1-n relationships (ex: category)
@@ -100,23 +102,35 @@ class VendorCrudController extends CrudController
 // in this second example, the relation is called `tags` (plural),
 // but we need to define the entity as "tag" (singural)*/
 );
-         $this->crud->addField([   // Table
-            'name'            => 'options',
-            'label'           => 'Options',
-            'type'            => 'table',
-            'entity_singular' => 'option', // used on the "Add X" button
-            'columns'         => [
-                'name'  => 'Name',
-                'desc'  => 'Description',
-                'price' => 'Price'
-            ],
-            'max' => 5, // maximum rows allowed in the table
-            'min' => 0, // minimum rows allowed in the table
-        ],);
+        //  $this->crud->addField([   // Table
+        //     'name'            => 'options',
+        //     'label'           => 'Options',
+        //     'type'            => 'table',
+        //     'entity_singular' => 'option', // used on the "Add X" button
+        //     'columns'         => [
+        //         'name'  => 'Name',
+        //         'desc'  => 'Description',
+        //         'price' => 'Price'
+        //     ],
+        //     'max' => 5, // maximum rows allowed in the table
+        //     'min' => 0, // minimum rows allowed in the table
+        // ],);
+        $this->crud->addField([
+            'label'        => 'Location',
+            'name'         => 'location',
+            'type'         => 'address_google',
+        ]);
         $this->crud->field('open_at');
         $this->crud->field('close_at');
-        $this->crud->field('avatar');
-
+        $this->crud->addField([
+            'label'        => 'Avatar',
+            'name'         => 'avatar',
+            'filename'     => 'image_filename', // set to null if not needed
+            'type'         => 'image',
+            'aspect_ratio' => 0, // set to 0 to allow any aspect ratio
+            'crop'         => true, // set to true to allow cropping, false to disable
+            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+        ]);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - $this->crud->field('price')->type('number');

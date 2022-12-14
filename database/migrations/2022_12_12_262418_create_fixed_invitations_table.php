@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_options', function (Blueprint $table) {
+        Schema::create('fixed_invitations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained();            
-            $table->string('title_en');
-            $table->string('title_ar');
-            $table->enum('type',['radio','checkBox','counter']);
-            $table->json('config');
+            $table->foreignId('order_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->string('reciver_name');
+            $table->string('reciver_phone');
+            $table->string('reciver_address')->nullable();
+            $table->boolean('is_sender_name_visible')->default(1);
+            $table->time('delivered_time');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_options');
+        Schema::dropIfExists('fixed_invitations');
     }
 };

@@ -261,9 +261,13 @@ class ProductCrudController extends CrudController
             'type' => "relationship",
             // OPTIONALS:
              'label' => "Categories",
-             'attribute' => "name",
+             'attribute' => "name_en",
              'placeholder' => "Select a category",
-         ],);
+             'options' => function ($options) {
+                return $options->where('type','product')->get();
+            },
+         ],
+        );
         $this->crud->field('price')->type('number')->size(6);
         $this->crud->addField([  // CustomHTML
             'name'  => 'separator',
@@ -294,10 +298,10 @@ class ProductCrudController extends CrudController
             'label'        => 'Avatar',
             'name'         => 'avatar',
             'filename'     => 'image_filename', // set to null if not needed
-            'type'         => 'base64_image',
+            'type'         => 'image',
             'aspect_ratio' => 0, // set to 0 to allow any aspect ratio
             'crop'         => true, // set to true to allow cropping, false to disable
-            'src'          => NULL, // null to read straight from DB, otherwise set to model accessor function
+            'src'          => 'image', // null to read straight from DB, otherwise set to model accessor function
         ]);
 
         $this->crud->addField([   // repeatable
@@ -319,9 +323,12 @@ class ProductCrudController extends CrudController
                 ],
                 [
                     'name'  => 'type',
-                    'label' => 'Type',
+                    'label' => 'Option input type',
                     'type'  => 'select_from_array',
-                    'options'     => ['just_one' => 'Just one', 'zero_or_more' => 'zero or more', 'one_or_more' => 'one or more', 'counter' => 'counter'],
+                    'options'     => ['radio' => 'Sigle choise',// (User can just select one of attributes)',
+                     'checkBox' => 'Multible choise' , // (User can select zero or more attributes)', 
+                     'counter' => 'Counter', // (User can select zero or more attributes and detrmine quantity of each one)'
+                    ],
                 ],
                 [
                     'name'            => 'config',

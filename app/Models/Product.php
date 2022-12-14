@@ -36,7 +36,7 @@ class Product extends Model
     */
     public function categories():BelongsToMany
     {
-       return $this->belongsToMany(Category::class , 'product_categories')->where('type','product');
+       return $this->belongsToMany(Category::class , 'product_categories');
     }
 
     /**

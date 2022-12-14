@@ -7,12 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Order extends Model
+class OrderProduct extends Model
 {
-    use CrudTrait;
-    use HasFactory, SoftDeletes;
+    use CrudTrait, HasFactory;
 
     /**
      * declare not filable fields
@@ -22,33 +20,25 @@ class Order extends Model
     /**
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function order(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Order::class);
     }
 
     /**
      * @return BelongsTo
     */
-    public function discount():BelongsTo
+    public function product(): BelongsTo
     {
-       return $this->belongsTo(Discount::class);
+        return $this->belongsTo(Product::class);
     }
 
     /**
      * @return HasMany
     */
-    public function products(): HasMany
+    public function options(): HasMany
     {
-        return $this->hasMany(OrderProduct::class);
-    }
-
-    /**
-     * @return HasMany
-    */
-    public function available_products()
-    {
-        return Product::class;
+        return $this->hasMany(OrderProductOption::class);
     }
 
 }
